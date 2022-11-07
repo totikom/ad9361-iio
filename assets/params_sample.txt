@@ -1,0 +1,293 @@
+iio:device1 [ad9361-phy]: 11 channel(s)
+	id: altvoltage0, is_output: true, type: AltVoltage
+		fastlock_store:	0
+		external:	0
+		frequency:	2500000000
+		fastlock_save:	0 141,141,141,141,141,141,141,141,141,135,141,195,141,141,141,87
+		fastlock_load:	0
+		frequency_available:	[70000000 1 6000000000]
+		powerdown:	0
+	id: voltage1, is_output: true, type: Voltage
+		rf_port_select:	A
+		hardwaregain_available:	[-89.750000 0.250000 0.000000]
+		rssi:	0.00 dB
+		hardwaregain:	-10.000000 dB
+		rf_port_select_available:	A B
+		sampling_frequency:	2500000
+		rf_bandwidth_available:	[200000 1 40000000]
+		sampling_frequency_available:	[2083333 1 61440000]
+		filter_fir_en:	0
+		rf_bandwidth:	1500000
+	id: voltage2, is_output: false, type: Voltage
+		sampling_frequency:	2500000
+		scale:	0.305250
+		bb_dc_offset_tracking_en:	1
+		raw:	940
+		rf_bandwidth:	2000000
+		quadrature_tracking_en:	1
+		gain_control_mode_available:	manual fast_attack slow_attack hybrid
+		offset:	57
+		sampling_frequency_available:	[2083333 1 61440000]
+		filter_fir_en:	0
+		rf_bandwidth_available:	[200000 1 56000000]
+		rf_dc_offset_tracking_en:	1
+		rf_port_select_available:	A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+	id: voltage2, is_output: true, type: Voltage
+		rf_bandwidth:	1500000
+		rf_port_select_available:	A B
+		filter_fir_en:	0
+		sampling_frequency:	2500000
+		raw:	306
+		rf_bandwidth_available:	[200000 1 40000000]
+		sampling_frequency_available:	[2083333 1 61440000]
+		scale:	1.000000
+	id: altvoltage1, is_output: true, type: AltVoltage
+		external:	0
+		fastlock_store:	0
+		powerdown:	0
+		fastlock_save:	0 245,181,52,245,176,113,245,245,245,245,245,185,245,171,47,181
+		frequency:	2500000000
+		frequency_available:	[46875001 1 6000000000]
+		fastlock_load:	0
+	id: voltage1, is_output: false, type: Voltage
+		rf_port_select_available:	A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		gain_control_mode_available:	manual fast_attack slow_attack hybrid
+		rf_dc_offset_tracking_en:	1
+		sampling_frequency:	2500000
+		rf_bandwidth:	2000000
+		sampling_frequency_available:	[2083333 1 61440000]
+		rssi:	26.00 dB
+		rf_bandwidth_available:	[200000 1 56000000]
+		rf_port_select:	A_BALANCED
+		bb_dc_offset_tracking_en:	1
+		hardwaregain_available:	[-3 1 71]
+		hardwaregain:	3.000000 dB
+		quadrature_tracking_en:	1
+		filter_fir_en:	0
+		gain_control_mode:	slow_attack
+	id: voltage0, is_output: true, type: Voltage
+		sampling_frequency:	2500000
+		rf_bandwidth_available:	[200000 1 40000000]
+		filter_fir_en:	0
+		hardwaregain:	-10.000000 dB
+		rf_port_select:	A
+		rssi:	0.00 dB
+		hardwaregain_available:	[-89.750000 0.250000 0.000000]
+		sampling_frequency_available:	[2083333 1 61440000]
+		rf_bandwidth:	1500000
+		rf_port_select_available:	A B
+	id: voltage3, is_output: true, type: Voltage
+		raw:	306
+		sampling_frequency_available:	[2083333 1 61440000]
+		rf_bandwidth_available:	[200000 1 40000000]
+		scale:	1.000000
+		filter_fir_en:	0
+		sampling_frequency:	2500000
+		rf_port_select_available:	A B
+		rf_bandwidth:	1500000
+	id: voltage0, is_output: false, type: Voltage
+		gain_control_mode_available:	manual fast_attack slow_attack hybrid
+		hardwaregain_available:	[-3 1 71]
+		quadrature_tracking_en:	1
+		rssi:	26.50 dB
+		sampling_frequency_available:	[2083333 1 61440000]
+		rf_dc_offset_tracking_en:	1
+		sampling_frequency:	2500000
+		filter_fir_en:	0
+		rf_bandwidth_available:	[200000 1 56000000]
+		hardwaregain:	4.000000 dB
+		gain_control_mode:	slow_attack
+		rf_port_select:	A_BALANCED
+		rf_port_select_available:	A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		rf_bandwidth:	2000000
+		bb_dc_offset_tracking_en:	1
+	id: temp0, is_output: false, type: Temp
+		input:	34211
+	id: out, is_output: false, type: Unknown
+		voltage_filter_fir_en:	0
+	Device attributes:
+		filter_fir_config:	FIR Rx: 0,0 Tx: 0,0
+		dcxo_tune_fine_available:	[0 1 8191]
+		gain_table_config:	<gaintable AD9361 type=FULL dest=3 start=1300000000 end=4000000000>
+-3, 0x00, 0x00, 0x20
+-3, 0x00, 0x00, 0x00
+-3, 0x00, 0x00, 0x00
+-2, 0x00, 0x01, 0x00
+-1, 0x00, 0x02, 0x00
+0, 0x00, 0x03, 0x00
+1, 0x00, 0x04, 0x00
+2, 0x00, 0x05, 0x00
+3, 0x01, 0x03, 0x20
+4, 0x01, 0x04, 0x00
+5, 0x01, 0x05, 0x00
+6, 0x01, 0x06, 0x00
+7, 0x01, 0x07, 0x00
+8, 0x01, 0x08, 0x00
+9, 0x01, 0x09, 0x00
+10, 0x01, 0x0A, 0x00
+11, 0x01, 0x0B, 0x00
+12, 0x01, 0x0C, 0x00
+13, 0x01, 0x0D, 0x00
+14, 0x01, 0x0E, 0x00
+15, 0x02, 0x09, 0x20
+16, 0x02, 0x0A, 0x00
+17, 0x02, 0x0B, 0x00
+18, 0x02, 0x0C, 0x00
+19, 0x02, 0x0D, 0x00
+20, 0x02, 0x0E, 0x00
+21, 0x02, 0x0F, 0x00
+22, 0x02, 0x10, 0x00
+23, 0x02, 0x2B, 0x20
+24, 0x02, 0x2C, 0x00
+25, 0x04, 0x27, 0x20
+26, 0x04, 0x28, 0x00
+27, 0x04, 0x29, 0x00
+28, 0x04, 0x2A, 0x00
+29, 0x04, 0x2B, 0x00
+30, 0x24, 0x21, 0x20
+31, 0x24, 0x22, 0x00
+32, 0x44, 0x20, 0x20
+33, 0x44, 0x21, 0x00
+34, 0x44, 0x22, 0x00
+35, 0x44, 0x23, 0x00
+36, 0x44, 0x24, 0x00
+37, 0x44, 0x25, 0x00
+38, 0x44, 0x26, 0x00
+39, 0x44, 0x27, 0x00
+40, 0x44, 0x28, 0x00
+41, 0x44, 0x29, 0x00
+42, 0x44, 0x2A, 0x00
+43, 0x44, 0x2B, 0x00
+44, 0x44, 0x2C, 0x00
+45, 0x44, 0x2D, 0x00
+46, 0x44, 0x2E, 0x00
+47, 0x44, 0x2F, 0x00
+48, 0x44, 0x30, 0x00
+49, 0x44, 0x31, 0x00
+50, 0x64, 0x2E, 0x20
+51, 0x64, 0x2F, 0x00
+52, 0x64, 0x30, 0x00
+53, 0x64, 0x31, 0x00
+54, 0x64, 0x32, 0x00
+55, 0x64, 0x33, 0x00
+56, 0x64, 0x34, 0x00
+57, 0x64, 0x35, 0x00
+58, 0x64, 0x36, 0x00
+59, 0x64, 0x37, 0x00
+60, 0x64, 0x38, 0x00
+61, 0x65, 0x38, 0x20
+62, 0x66, 0x38, 0x20
+63, 0x67, 0x38, 0x20
+64, 0x68, 0x38, 0x20
+65, 0x69, 0x38, 0x20
+66, 0x6A, 0x38, 0x20
+67, 0x6B, 0x38, 0x20
+68, 0x6C, 0x38, 0x20
+69, 0x6D, 0x38, 0x20
+70, 0x6E, 0x38, 0x20
+71, 0x6F, 0x38, 0x20
+</gaintable>
+		dcxo_tune_fine:	5920
+		dcxo_tune_coarse:	8
+		rssi_gain_step_error:	lna_error: 0 0 0 0
+mixer_error: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+gain_step_calib_reg_val: 0 0 0 0 0
+		calib_mode_available:	auto manual manual_tx_quad tx_quad rf_dc_offs rssi_gain_step
+		ensm_mode_available:	sleep wait alert fdd pinctrl pinctrl_fdd_indep
+		rx_path_rates:	BBPLL:960000000 ADC:30000000 R2:10000000 R1:5000000 RF:2500000 RXSAMP:2500000
+		calib_mode:	auto
+		trx_rate_governor_available:	nominal highest_osr
+		xo_correction_available:	[40000000 1 40000000]
+		trx_rate_governor:	nominal
+		dcxo_tune_coarse_available:	[0 1 63]
+		tx_path_rates:	BBPLL:960000000 DAC:30000000 T2:10000000 T1:5000000 TF:2500000 TXSAMP:2500000
+		xo_correction:	40000000
+		ensm_mode:	fdd
+iio:device4 [cf-ad9361-dds-core-lpc]: 12 channel(s)
+	id: voltage0, is_output: true, type: Voltage
+		calibscale:	1.000000
+		sampling_frequency:	2500000
+		calibphase:	0.000000
+	id: voltage1, is_output: true, type: Voltage
+		sampling_frequency:	2500000
+		calibscale:	1.000000
+		calibphase:	0.000000
+	id: voltage2, is_output: true, type: Voltage
+		calibphase:	0.000000
+		calibscale:	1.000000
+		sampling_frequency:	2500000
+	id: voltage3, is_output: true, type: Voltage
+		calibphase:	0.000000
+		calibscale:	1.000000
+		sampling_frequency:	2500000
+	id: altvoltage3, is_output: true, type: AltVoltage
+		sampling_frequency:	2500000
+		scale:	0.250000
+		frequency:	2499465
+		raw:	1
+		phase:	0
+	id: altvoltage5, is_output: true, type: AltVoltage
+		raw:	1
+		sampling_frequency:	2500000
+		scale:	0.250000
+		phase:	90000
+		frequency:	2499465
+	id: altvoltage2, is_output: true, type: AltVoltage
+		sampling_frequency:	2500000
+		raw:	1
+		phase:	0
+		frequency:	2499465
+		scale:	0.250000
+	id: altvoltage1, is_output: true, type: AltVoltage
+		frequency:	2499465
+		raw:	1
+		phase:	90000
+		sampling_frequency:	2500000
+		scale:	0.250000
+	id: altvoltage7, is_output: true, type: AltVoltage
+		scale:	0.250000
+		frequency:	2499465
+		phase:	0
+		raw:	1
+		sampling_frequency:	2500000
+	id: altvoltage4, is_output: true, type: AltVoltage
+		raw:	1
+		scale:	0.250000
+		phase:	90000
+		frequency:	2499465
+		sampling_frequency:	2500000
+	id: altvoltage0, is_output: true, type: AltVoltage
+		phase:	90000
+		frequency:	2499465
+		sampling_frequency:	2500000
+		scale:	0.250000
+		raw:	1
+	id: altvoltage6, is_output: true, type: AltVoltage
+		frequency:	2499465
+		sampling_frequency:	2500000
+		raw:	1
+		phase:	0
+		scale:	0.250000
+	Device attributes:
+iio:device3 [cf-ad9361-lpc]: 4 channel(s)
+	id: voltage0, is_output: false, type: Voltage
+		sampling_frequency:	2500000
+		calibphase:	0.000000
+		calibbias:	0
+		calibscale:	1.000000
+	id: voltage1, is_output: false, type: Voltage
+		calibbias:	0
+		sampling_frequency:	2500000
+		calibscale:	1.000000
+		calibphase:	0.000000
+	id: voltage2, is_output: false, type: Voltage
+		calibbias:	0
+		calibphase:	0.000000
+		calibscale:	1.000000
+		sampling_frequency:	2500000
+	id: voltage3, is_output: false, type: Voltage
+		calibbias:	0
+		sampling_frequency:	2500000
+		calibphase:	0.000000
+		calibscale:	1.000000
+	Device attributes:
