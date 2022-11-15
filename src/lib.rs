@@ -110,6 +110,34 @@ impl AD9361 {
             tx_channels,
         })
     }
+
+    pub fn set_rx_rf_bandwidth(&self, bandwidth: i64) -> Result<(), Error> {
+        for ch in &self.rx_control_channels {
+            ch.attr_write_int("rf_bandwidth", bandwidth)?;
+        }
+        Ok(())
+    }
+
+    pub fn set_sampling_frequency(&self, samplerate: i64) -> Result<(), Error> {
+        for ch in &self.rx_control_channels {
+            ch.attr_write_int("sampling_frequency", samplerate)?;
+        }
+        Ok(())
+    }
+
+    pub fn rx_port_select(&self, port: RxPortSelect) -> Result<(), Error> {
+        for ch in &self.rx_control_channels {
+            ch.attr_write_str("rf_port_select", port.to_str())?;
+        }
+        Ok(())
+    }
+
+    pub fn tx_port_select(&self, port: TxPortSelect) -> Result<(), Error> {
+        for ch in &self.tx_control_channels {
+            ch.attr_write_str("rf_port_select", port.to_str())?;
+        }
+        Ok(())
+    }
 }
 
 #[derive(Debug)]
@@ -118,13 +146,20 @@ struct IQChannel {
     q: Channel,
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug)]
 pub enum Error {
     NoSuchDevice(DevicePart),
     NoChannelOnDevice,
+    GeneralIIOError(industrial_io::Error),
 }
 
-#[derive(Eq, PartialEq, Ord, PartialOrd)]
+impl From<industrial_io::Error> for Error {
+    fn from(error: industrial_io::Error) -> Self {
+        Self::GeneralIIOError(error)
+    }
+}
+
+#[derive(Eq, PartialEq, Ord, PartialOrd, Copy, Clone)]
 pub enum DevicePart {
     Phy,
     Dds,
@@ -141,10 +176,20 @@ impl fmt::Debug for DevicePart {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Copy, Clone)]
 pub enum TxPortSelect {
     A,
     B,
+}
+
+impl TxPortSelect {
+    fn to_str(&self) -> &'static str {
+        use TxPortSelect::*;
+        match self {
+            A => "A",
+            B => "B",
+        }
+    }
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
@@ -161,6 +206,26 @@ pub enum RxPortSelect {
     TxMonitor1,
     TxMonitor12,
     TxMonitor2,
+}
+
+impl RxPortSelect {
+    fn to_str(&self) -> &'static str {
+        use RxPortSelect::*;
+        match self {
+            ABalanced => "A_BALANCED",
+            AN => "A_N",
+            AP => "A_P",
+            BBalanced => "B_BALANCED",
+            BN => "B_N ",
+            BP => "B_P",
+            CBalanced => "C_BALANCED",
+            CN => "C_N",
+            CP => "C_P",
+            TxMonitor1 => "TX_MONITOR1",
+            TxMonitor12 => "TX_MONITOR1_2",
+            TxMonitor2 => "TX_MONITOR2",
+        }
+    }
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
