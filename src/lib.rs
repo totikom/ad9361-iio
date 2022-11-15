@@ -1,6 +1,6 @@
 use industrial_io as iio;
 
-use iio::{Channel, Context, Device};
+use iio::{Buffer, Channel, Context, Device};
 use std::fmt;
 
 const PHY_NAME: &str = "ad9361-phy";
@@ -18,6 +18,8 @@ pub struct AD9361 {
     tx_lo: Channel,
     rx_channels: [IQChannel; 2],
     tx_channels: [IQChannel; 2],
+    rx_buffer: Option<Buffer>,
+    tx_buffer: Option<Buffer>,
 }
 
 impl AD9361 {
@@ -108,35 +110,118 @@ impl AD9361 {
             tx_lo,
             rx_channels,
             tx_channels,
+            rx_buffer: None,
+            tx_buffer: None,
         })
     }
 
-    pub fn set_rx_rf_bandwidth(&self, bandwidth: i64) -> Result<(), Error> {
-        for ch in &self.rx_control_channels {
-            ch.attr_write_int("rf_bandwidth", bandwidth)?;
-        }
+    pub fn set_rx_rf_bandwidth(&self, chan_id: usize, bandwidth: i64) -> Result<(), Error> {
+        self.rx_control_channels[chan_id].attr_write_int("rf_bandwidth", bandwidth)?;
         Ok(())
     }
 
-    pub fn set_sampling_frequency(&self, samplerate: i64) -> Result<(), Error> {
-        for ch in &self.rx_control_channels {
-            ch.attr_write_int("sampling_frequency", samplerate)?;
-        }
+    pub fn set_rx_sampling_frequency(&self, chan_id: usize, samplerate: i64) -> Result<(), Error> {
+        self.rx_control_channels[chan_id].attr_write_int("sampling_frequency", samplerate)?;
         Ok(())
     }
 
-    pub fn rx_port_select(&self, port: RxPortSelect) -> Result<(), Error> {
-        for ch in &self.rx_control_channels {
-            ch.attr_write_str("rf_port_select", port.to_str())?;
-        }
+    pub fn set_rx_lo(&self, freq: i64) -> Result<(), Error> {
+        self.rx_lo.attr_write_int("frequency", freq)?;
         Ok(())
     }
 
-    pub fn tx_port_select(&self, port: TxPortSelect) -> Result<(), Error> {
-        for ch in &self.tx_control_channels {
-            ch.attr_write_str("rf_port_select", port.to_str())?;
-        }
+    pub fn set_rx_port(&self, chan_id: usize, port: RxPortSelect) -> Result<(), Error> {
+        self.rx_control_channels[chan_id].attr_write_str("rf_port_select", port.to_str())?;
         Ok(())
+    }
+
+    pub fn rx_enable(&self, chan_id: usize) {
+        self.rx_channels[chan_id].i.enable();
+        self.rx_channels[chan_id].q.enable();
+    }
+
+    pub fn rx_disable(&self, chan_id: usize) {
+        self.rx_channels[chan_id].i.disable();
+        self.rx_channels[chan_id].q.disable();
+    }
+
+    pub fn create_rx_buffer(&mut self, sample_count: usize, cyclic: bool) -> Result<(), Error> {
+        let buffer = self.rx_device.create_buffer(sample_count, cyclic)?;
+        self.rx_buffer = Some(buffer);
+        Ok(())
+    }
+
+    pub fn destroy_rx_buffer(&mut self) {
+        self.rx_buffer = None;
+    }
+
+    pub fn pool_samples_to_buff(&mut self) -> Result<usize, Error> {
+        let Some(buf) = &mut self.rx_buffer else {return Err(Error::NoRxBuff);};
+        let result = buf.refill()?;
+        Ok(result)
+    }
+
+    pub fn read(&self, chan_id: usize) -> Result<Signal, Error> {
+        let Some(buf) = &self.rx_buffer else {return Err(Error::NoRxBuff);};
+        let i_channel: Vec<i16> = self.rx_channels[chan_id].i.read(&buf)?;
+        let q_channel: Vec<i16> = self.rx_channels[chan_id].q.read(&buf)?;
+        Ok(Signal {
+            i_channel,
+            q_channel,
+        })
+    }
+
+    pub fn set_tx_rf_bandwidth(&self, chan_id: usize, bandwidth: i64) -> Result<(), Error> {
+        self.tx_control_channels[chan_id].attr_write_int("rf_bandwidth", bandwidth)?;
+        Ok(())
+    }
+
+    pub fn set_tx_sampling_frequency(&self, chan_id: usize, samplerate: i64) -> Result<(), Error> {
+        self.tx_control_channels[chan_id].attr_write_int("sampling_frequency", samplerate)?;
+        Ok(())
+    }
+
+    pub fn set_tx_lo(&self, freq: i64) -> Result<(), Error> {
+        self.tx_lo.attr_write_int("frequency", freq)?;
+        Ok(())
+    }
+
+    pub fn set_tx_port(&self, chan_id: usize, port: TxPortSelect) -> Result<(), Error> {
+        self.tx_control_channels[chan_id].attr_write_str("rf_port_select", port.to_str())?;
+        Ok(())
+    }
+
+    pub fn tx_enable(&self, chan_id: usize) {
+        self.tx_channels[chan_id].i.enable();
+        self.tx_channels[chan_id].q.enable();
+    }
+
+    pub fn tx_disable(&self, chan_id: usize) {
+        self.tx_channels[chan_id].i.disable();
+        self.tx_channels[chan_id].q.disable();
+    }
+
+    pub fn create_tx_buffer(&mut self, sample_count: usize, cyclic: bool) -> Result<(), Error> {
+        let buffer = self.tx_device.create_buffer(sample_count, cyclic)?;
+        self.tx_buffer = Some(buffer);
+        Ok(())
+    }
+
+    pub fn destroy_tx_buffer(&mut self) {
+        self.tx_buffer = None;
+    }
+
+    pub fn push_samples_to_device(&mut self) -> Result<usize, Error> {
+        let Some(buf) = &mut self.tx_buffer else {return Err(Error::NoTxBuff);};
+        let result = buf.push()?;
+        Ok(result)
+    }
+
+    pub fn write(&self, chan_id: usize, signal: &Signal) -> Result<(usize, usize), Error> {
+        let Some(buf) = &self.tx_buffer else {return Err(Error::NoTxBuff);};
+        let write_i = self.tx_channels[chan_id].i.write(&buf, &signal.i_channel)?;
+        let write_q = self.tx_channels[chan_id].q.write(&buf, &signal.q_channel)?;
+        Ok((write_i, write_q))
     }
 }
 
@@ -151,6 +236,8 @@ pub enum Error {
     NoSuchDevice(DevicePart),
     NoChannelOnDevice,
     GeneralIIOError(industrial_io::Error),
+    NoRxBuff,
+    NoTxBuff,
 }
 
 impl From<industrial_io::Error> for Error {
@@ -234,4 +321,10 @@ pub enum GainControlMode {
     Hybrid,
     Manual,
     SlowAttack,
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
+pub struct Signal {
+    i_channel: Vec<i16>,
+    q_channel: Vec<i16>,
 }
