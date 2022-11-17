@@ -24,7 +24,7 @@ pub struct AD9361 {
 
 impl AD9361 {
     pub fn new(ctx: &Context) -> Result<Self, Error> {
-        // Accuire devices
+        // Acquire devices
         let control_device = ctx
             .find_device(PHY_NAME)
             .ok_or(Error::NoSuchDevice(DevicePart::Phy))?;
@@ -35,7 +35,7 @@ impl AD9361 {
             .find_device(DDS_NAME)
             .ok_or(Error::NoSuchDevice(DevicePart::Dds))?;
 
-        // Accuire control channels
+        // Acquire control channels
         let rx_control_channels = [
             control_device
                 .find_channel("voltage0", false)
@@ -53,7 +53,7 @@ impl AD9361 {
                 .ok_or(Error::NoChannelOnDevice)?,
         ];
 
-        // Accuire local oscillator channels
+        // Acquire local oscillator channels
         let rx_lo = control_device
             .find_channel("altvoltage0", true)
             .ok_or(Error::NoChannelOnDevice)?;
@@ -61,7 +61,7 @@ impl AD9361 {
             .find_channel("altvoltage1", true)
             .ok_or(Error::NoChannelOnDevice)?;
 
-        // Accuire channels
+        // Acquire channels
         //TODO: This should be rewritten without code duplication
         let rx_channels = [
             IQChannel {
