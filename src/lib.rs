@@ -308,25 +308,6 @@ pub enum GainControlMode {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Signal {
-    i_channel: Vec<i16>,
-    q_channel: Vec<i16>,
-}
-
-impl Signal {
-    pub fn new(i_channel: Vec<i16>, q_channel: Vec<i16>) -> Self {
-        //TODO: this should be refactored
-        assert_eq!(i_channel.len(), q_channel.len());
-        Self {
-            i_channel,
-            q_channel,
-        }
-    }
-
-    pub fn to_channels(self) -> (Vec<i16>, Vec<i16>) {
-        let Signal {
-            i_channel,
-            q_channel,
-        } = self;
-        (i_channel, q_channel)
-    }
+    pub i_channel: Vec<i16>,
+    pub q_channel: Vec<i16>,
 }
