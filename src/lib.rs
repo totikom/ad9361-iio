@@ -4,8 +4,12 @@ use iio::{Buffer, Channel as IIOChannel, Context, Device};
 use std::cell::RefCell;
 
 mod error;
+mod rx_port_select;
+mod tx_port_select;
 
 pub use error::{DevicePart, Error};
+pub use rx_port_select::RxPortSelect;
+pub use tx_port_select::TxPortSelect;
 
 const PHY_NAME: &str = "ad9361-phy";
 const DDS_NAME: &str = "cf-ad9361-dds-core-lpc";
@@ -51,7 +55,7 @@ impl AD9361 {
                     q: rx_device
                         .find_channel("voltage1", false)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    direction: Rx {},
+                    _direction: Rx {},
                 },
                 control: control_device
                     .find_channel("voltage0", false)
@@ -65,7 +69,7 @@ impl AD9361 {
                     q: rx_device
                         .find_channel("voltage3", false)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    direction: Rx {},
+                    _direction: Rx {},
                 },
                 control: control_device
                     .find_channel("voltage1", false)
@@ -81,7 +85,7 @@ impl AD9361 {
                     q: tx_device
                         .find_channel("voltage1", true)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    direction: Tx {},
+                    _direction: Tx {},
                 },
                 control: control_device
                     .find_channel("voltage0", true)
@@ -95,7 +99,7 @@ impl AD9361 {
                     q: tx_device
                         .find_channel("voltage3", true)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    direction: Tx {},
+                    _direction: Tx {},
                 },
                 control: control_device
                     .find_channel("voltage1", true)
@@ -129,7 +133,7 @@ impl AD9361 {
 struct IQChannel<T> {
     i: IIOChannel,
     q: IIOChannel,
-    direction: T,
+    _direction: T,
 }
 
 #[derive(Debug)]
@@ -283,94 +287,6 @@ impl<T> Drop for Transceiver<T> {
         self.buffer = None;
         self.disable(0);
         self.disable(1);
-    }
-}
-
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Copy, Clone)]
-pub enum TxPortSelect {
-    A,
-    B,
-}
-
-impl TxPortSelect {
-    #[must_use]
-    pub fn to_str(&self) -> &'static str {
-        use TxPortSelect::*;
-        match self {
-            A => "A",
-            B => "B",
-        }
-    }
-}
-
-impl TryFrom<String> for TxPortSelect {
-    type Error = Error;
-    fn try_from(string: String) -> Result<Self, Self::Error> {
-        use TxPortSelect::*;
-        match string.as_str() {
-            "A" => Ok(A),
-            "B" => Ok(B),
-            val => Err(Error::UnexpectedStringValue(val.to_string())),
-        }
-    }
-}
-
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
-pub enum RxPortSelect {
-    ABalanced,
-    AN,
-    AP,
-    BBalanced,
-    BN,
-    BP,
-    CBalanced,
-    CN,
-    CP,
-    TxMonitor1,
-    TxMonitor12,
-    TxMonitor2,
-}
-
-impl TryFrom<String> for RxPortSelect {
-    type Error = Error;
-    fn try_from(string: String) -> Result<Self, Self::Error> {
-        use RxPortSelect::*;
-        match string.as_str() {
-            "A_BALANCED" => Ok(ABalanced),
-            "A_N" => Ok(AN),
-            "A_P" => Ok(AP),
-            "B_BALANCED" => Ok(BBalanced),
-            "B_N" => Ok(BN),
-            "B_P" => Ok(BP),
-            "C_BALANCED" => Ok(CBalanced),
-            "C_N" => Ok(CN),
-            "C_P" => Ok(CP),
-            "TX_MONITOR1" => Ok(TxMonitor1),
-            "TX_MONITOR1_2" => Ok(TxMonitor12),
-            "TX_MONITOR2" => Ok(TxMonitor2),
-            val => Err(Error::UnexpectedStringValue(val.to_string())),
-        }
-    }
-}
-
-impl RxPortSelect {
-    #[must_use]
-    pub fn to_str(&self) -> &'static str {
-        use RxPortSelect::*;
-        match self {
-            ABalanced => "A_BALANCED",
-            AN => "A_N",
-            AP => "A_P",
-            BBalanced => "B_BALANCED",
-            BN => "B_N",
-            BP => "B_P",
-            CBalanced => "C_BALANCED",
-            CN => "C_N",
-            CP => "C_P",
-            TxMonitor1 => "TX_MONITOR1",
-            TxMonitor12 => "TX_MONITOR1_2",
-            TxMonitor2 => "TX_MONITOR2",
-        }
     }
 }
 
