@@ -119,8 +119,8 @@ impl AD9361 {
 
         Ok(Self {
             control_device,
-            tx,
             rx,
+            tx,
         })
     }
 }
@@ -209,8 +209,8 @@ impl Transceiver<Rx> {
 
     pub fn read(&self, chan_id: usize) -> Result<Signal, Error> {
         let Some(buf) = &self.buffer else {return Err(Error::NoRxBuff);};
-        let i_channel: Vec<i16> = self.channels[chan_id].data.i.read(&buf)?;
-        let q_channel: Vec<i16> = self.channels[chan_id].data.q.read(&buf)?;
+        let i_channel: Vec<i16> = self.channels[chan_id].data.i.read(buf)?;
+        let q_channel: Vec<i16> = self.channels[chan_id].data.q.read(buf)?;
         Ok(Signal {
             i_channel,
             q_channel,
@@ -237,11 +237,11 @@ impl Transceiver<Tx> {
         let write_i = self.channels[chan_id]
             .data
             .i
-            .write(&buf, &signal.i_channel)?;
+            .write(buf, &signal.i_channel)?;
         let write_q = self.channels[chan_id]
             .data
             .q
-            .write(&buf, &signal.q_channel)?;
+            .write(buf, &signal.q_channel)?;
         Ok((write_i, write_q))
     }
 }
@@ -261,6 +261,7 @@ pub enum TxPortSelect {
 }
 
 impl TxPortSelect {
+    #[must_use]
     pub fn to_str(&self) -> &'static str {
         use TxPortSelect::*;
         match self {
@@ -287,6 +288,7 @@ pub enum RxPortSelect {
 }
 
 impl RxPortSelect {
+    #[must_use]
     pub fn to_str(&self) -> &'static str {
         use RxPortSelect::*;
         match self {
