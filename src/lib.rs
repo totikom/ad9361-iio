@@ -160,6 +160,13 @@ impl<T> Transceiver<T> {
         Ok(())
     }
 
+    pub fn rf_bandwidth(&self, chan_id: usize) -> Result<i64, Error> {
+        self.channels[chan_id]
+            .control
+            .attr_read_int("rf_bandwidth")
+            .map_err(Error::from)
+    }
+
     pub fn set_sampling_frequency(&self, chan_id: usize, samplerate: i64) -> Result<(), Error> {
         self.channels[chan_id]
             .control
@@ -167,9 +174,20 @@ impl<T> Transceiver<T> {
         Ok(())
     }
 
+    pub fn sampling_frequency(&self, chan_id: usize) -> Result<i64, Error> {
+        self.channels[chan_id]
+            .control
+            .attr_read_int("sampling_frequency")
+            .map_err(Error::from)
+    }
+
     pub fn set_lo(&self, freq: i64) -> Result<(), Error> {
         self.lo.attr_write_int("frequency", freq)?;
         Ok(())
+    }
+
+    pub fn lo(&self) -> Result<i64, Error> {
+        self.lo.attr_read_int("frequency").map_err(Error::from)
     }
 
     pub fn enable(&self, chan_id: usize) {
@@ -201,6 +219,13 @@ impl Transceiver<Rx> {
         Ok(())
     }
 
+    pub fn port(&self, chan_id: usize) -> Result<RxPortSelect, Error> {
+        let string = self.channels[chan_id]
+            .control
+            .attr_read_str("rf_port_select")?;
+        RxPortSelect::try_from(string)
+    }
+
     pub fn pool_samples_to_buff(&mut self) -> Result<usize, Error> {
         let Some(buf) = &mut self.buffer else {return Err(Error::NoRxBuff);};
         let result = buf.refill()?;
@@ -224,6 +249,13 @@ impl Transceiver<Tx> {
             .control
             .attr_write_str("rf_port_select", port.to_str())?;
         Ok(())
+    }
+
+    pub fn port(&self, chan_id: usize) -> Result<TxPortSelect, Error> {
+        let string = self.channels[chan_id]
+            .control
+            .attr_read_str("rf_port_select")?;
+        TxPortSelect::try_from(string)
     }
 
     pub fn push_samples_to_device(&mut self) -> Result<usize, Error> {
@@ -271,6 +303,18 @@ impl TxPortSelect {
     }
 }
 
+impl TryFrom<String> for TxPortSelect {
+    type Error = Error;
+    fn try_from(string: String) -> Result<Self, Self::Error> {
+        use TxPortSelect::*;
+        match string.as_str() {
+            "A" => Ok(A),
+            "B" => Ok(B),
+            val => Err(Error::UnexpectedStringValue(val.to_string())),
+        }
+    }
+}
+
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub enum RxPortSelect {
     ABalanced,
@@ -287,6 +331,28 @@ pub enum RxPortSelect {
     TxMonitor2,
 }
 
+impl TryFrom<String> for RxPortSelect {
+    type Error = Error;
+    fn try_from(string: String) -> Result<Self, Self::Error> {
+        use RxPortSelect::*;
+        match string.as_str() {
+            "A_BALANCED" => Ok(ABalanced),
+            "A_N" => Ok(AN),
+            "A_P" => Ok(AP),
+            "B_BALANCED" => Ok(BBalanced),
+            "B_N" => Ok(BN),
+            "B_P" => Ok(BP),
+            "C_BALANCED" => Ok(CBalanced),
+            "C_N" => Ok(CN),
+            "C_P" => Ok(CP),
+            "TX_MONITOR1" => Ok(TxMonitor1),
+            "TX_MONITOR1_2" => Ok(TxMonitor12),
+            "TX_MONITOR2" => Ok(TxMonitor2),
+            val => Err(Error::UnexpectedStringValue(val.to_string())),
+        }
+    }
+}
+
 impl RxPortSelect {
     #[must_use]
     pub fn to_str(&self) -> &'static str {
@@ -296,7 +362,7 @@ impl RxPortSelect {
             AN => "A_N",
             AP => "A_P",
             BBalanced => "B_BALANCED",
-            BN => "B_N ",
+            BN => "B_N",
             BP => "B_P",
             CBalanced => "C_BALANCED",
             CN => "C_N",

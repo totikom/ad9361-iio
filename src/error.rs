@@ -9,6 +9,7 @@ pub enum Error {
     GeneralIIOError(industrial_io::Error),
     NoRxBuff,
     NoTxBuff,
+    UnexpectedStringValue(String),
 }
 
 impl From<industrial_io::Error> for Error {
