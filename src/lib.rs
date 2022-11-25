@@ -55,8 +55,8 @@ impl AD9361 {
                     q: rx_device
                         .find_channel("voltage1", false)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    _direction: Rx {},
                 },
+                _direction: Rx {},
                 control: control_device
                     .find_channel("voltage0", false)
                     .ok_or(Error::NoChannelOnDevice)?,
@@ -69,13 +69,14 @@ impl AD9361 {
                     q: rx_device
                         .find_channel("voltage3", false)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    _direction: Rx {},
                 },
+                _direction: Rx {},
                 control: control_device
                     .find_channel("voltage1", false)
                     .ok_or(Error::NoChannelOnDevice)?,
             },
         ];
+
         let tx_channels = [
             Channel {
                 data: IQChannel {
@@ -85,8 +86,8 @@ impl AD9361 {
                     q: tx_device
                         .find_channel("voltage1", true)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    _direction: Tx {},
                 },
+                _direction: Tx {},
                 control: control_device
                     .find_channel("voltage0", true)
                     .ok_or(Error::NoChannelOnDevice)?,
@@ -99,8 +100,8 @@ impl AD9361 {
                     q: tx_device
                         .find_channel("voltage3", true)
                         .ok_or(Error::NoChannelOnDevice)?,
-                    _direction: Tx {},
                 },
+                _direction: Tx {},
                 control: control_device
                     .find_channel("voltage1", true)
                     .ok_or(Error::NoChannelOnDevice)?,
@@ -130,16 +131,23 @@ impl AD9361 {
 }
 
 #[derive(Debug)]
-struct IQChannel<T> {
+struct IQChannel {
     i: IIOChannel,
     q: IIOChannel,
-    _direction: T,
 }
 
 #[derive(Debug)]
 struct Channel<T> {
     control: IIOChannel,
-    data: IQChannel<T>,
+    data: IQChannel,
+    _direction: T,
+}
+
+#[derive(Debug)]
+struct ValueRange<T> {
+    min: T,
+    max: T,
+    step: T,
 }
 
 // Marker structs for directioning
