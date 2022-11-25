@@ -246,6 +246,14 @@ impl Transceiver<Tx> {
     }
 }
 
+impl<T> Drop for Transceiver<T> {
+    fn drop(&mut self) {
+        self.buffer = None;
+        self.disable(0);
+        self.disable(1);
+    }
+}
+
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Copy, Clone)]
 pub enum TxPortSelect {
     A,
