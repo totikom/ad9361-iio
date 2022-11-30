@@ -45,7 +45,6 @@ impl AD9361 {
 
         // Acquire channels
         //TODO: This should be rewritten without code duplication
-        //FIXME: recheck channels
         let rx_channels = [
             Channel {
                 data: IQChannel {
