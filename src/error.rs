@@ -10,6 +10,7 @@ pub enum Error {
     NoRxBuff,
     NoTxBuff,
     UnexpectedStringValue(String),
+    OutOfRangeIntValue(i64),
 }
 
 impl From<industrial_io::Error> for Error {

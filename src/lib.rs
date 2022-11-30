@@ -2,6 +2,7 @@ use industrial_io as iio;
 
 use iio::{Buffer, Channel as IIOChannel, Context, Device};
 use std::cell::RefCell;
+use std::ops::Range;
 
 mod error;
 mod gain_control_mode;
@@ -16,6 +17,10 @@ pub use tx_port_select::TxPortSelect;
 const PHY_NAME: &str = "ad9361-phy";
 const DDS_NAME: &str = "cf-ad9361-dds-core-lpc";
 const LPC_NAME: &str = "cf-ad9361-lpc";
+
+const LO_FREQUENCY_RANGE: Range<i64> = 46875001..6000000000;
+const RF_BANDWIDTH_RANGE: Range<i64> = 200000..56000000;
+const SAMPLING_FREQUENCY_RANGE: Range<i64> = 2083333..61440000;
 
 #[derive(Debug)]
 pub struct AD9361 {
@@ -144,13 +149,6 @@ struct Channel<T> {
     _direction: T,
 }
 
-#[derive(Debug)]
-struct ValueRange<T> {
-    min: T,
-    max: T,
-    step: T,
-}
-
 // Marker structs for directioning
 #[derive(Debug)]
 pub struct Tx;
@@ -167,10 +165,14 @@ pub struct Transceiver<T> {
 
 impl<T> Transceiver<T> {
     pub fn set_rf_bandwidth(&self, chan_id: usize, bandwidth: i64) -> Result<(), Error> {
-        self.channels[chan_id]
-            .control
-            .attr_write_int("rf_bandwidth", bandwidth)?;
-        Ok(())
+        if RF_BANDWIDTH_RANGE.contains(&bandwidth) {
+            self.channels[chan_id]
+                .control
+                .attr_write_int("rf_bandwidth", bandwidth)?;
+            Ok(())
+        } else {
+            Err(Error::OutOfRangeIntValue(bandwidth))
+        }
     }
 
     pub fn rf_bandwidth(&self, chan_id: usize) -> Result<i64, Error> {
@@ -181,10 +183,14 @@ impl<T> Transceiver<T> {
     }
 
     pub fn set_sampling_frequency(&self, chan_id: usize, samplerate: i64) -> Result<(), Error> {
-        self.channels[chan_id]
-            .control
-            .attr_write_int("sampling_frequency", samplerate)?;
-        Ok(())
+        if SAMPLING_FREQUENCY_RANGE.contains(&samplerate) {
+            self.channels[chan_id]
+                .control
+                .attr_write_int("sampling_frequency", samplerate)?;
+            Ok(())
+        } else {
+            Err(Error::OutOfRangeIntValue(samplerate))
+        }
     }
 
     pub fn sampling_frequency(&self, chan_id: usize) -> Result<i64, Error> {
@@ -195,8 +201,12 @@ impl<T> Transceiver<T> {
     }
 
     pub fn set_lo(&self, freq: i64) -> Result<(), Error> {
-        self.lo.attr_write_int("frequency", freq)?;
-        Ok(())
+        if LO_FREQUENCY_RANGE.contains(&freq) {
+            self.lo.attr_write_int("frequency", freq)?;
+            Ok(())
+        } else {
+            Err(Error::OutOfRangeIntValue(freq))
+        }
     }
 
     pub fn lo(&self) -> Result<i64, Error> {
