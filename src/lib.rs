@@ -1,26 +1,20 @@
-use industrial_io as iio;
-
-use iio::{Buffer, Channel as IIOChannel, Context, Device};
+use industrial_io::{Buffer, Channel as IIOChannel, Context, Device};
 use std::cell::RefCell;
 use std::ops::Range;
 
+mod channel;
 mod error;
-mod gain_control_mode;
-mod rx_port_select;
-mod tx_port_select;
 
+pub use channel::{GainControlMode, Rx, RxPortSelect, Tx, TxPortSelect};
 pub use error::{DevicePart, Error};
-pub use gain_control_mode::GainControlMode;
-pub use rx_port_select::RxPortSelect;
-pub use tx_port_select::TxPortSelect;
+
+use channel::Channel;
 
 const PHY_NAME: &str = "ad9361-phy";
 const DDS_NAME: &str = "cf-ad9361-dds-core-lpc";
 const LPC_NAME: &str = "cf-ad9361-lpc";
 
 const LO_FREQUENCY_RANGE: Range<i64> = 46875001..6000000000;
-const RF_BANDWIDTH_RANGE: Range<i64> = 200000..56000000;
-const SAMPLING_FREQUENCY_RANGE: Range<i64> = 2083333..61440000;
 
 #[derive(Debug)]
 pub struct AD9361 {
@@ -53,65 +47,13 @@ impl AD9361 {
         // Acquire channels
         //TODO: This should be rewritten without code duplication
         let rx_channels = [
-            Channel {
-                data: IQChannel {
-                    i: rx_device
-                        .find_channel("voltage0", false)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                    q: rx_device
-                        .find_channel("voltage1", false)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                },
-                _direction: Rx {},
-                control: control_device
-                    .find_channel("voltage0", false)
-                    .ok_or(Error::NoChannelOnDevice)?,
-            },
-            Channel {
-                data: IQChannel {
-                    i: rx_device
-                        .find_channel("voltage2", false)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                    q: rx_device
-                        .find_channel("voltage3", false)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                },
-                _direction: Rx {},
-                control: control_device
-                    .find_channel("voltage1", false)
-                    .ok_or(Error::NoChannelOnDevice)?,
-            },
+            Channel::<Rx>::new(&rx_device, &control_device, 0)?,
+            Channel::<Rx>::new(&rx_device, &control_device, 1)?,
         ];
 
         let tx_channels = [
-            Channel {
-                data: IQChannel {
-                    i: tx_device
-                        .find_channel("voltage0", true)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                    q: tx_device
-                        .find_channel("voltage1", true)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                },
-                _direction: Tx {},
-                control: control_device
-                    .find_channel("voltage0", true)
-                    .ok_or(Error::NoChannelOnDevice)?,
-            },
-            Channel {
-                data: IQChannel {
-                    i: tx_device
-                        .find_channel("voltage2", true)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                    q: tx_device
-                        .find_channel("voltage3", true)
-                        .ok_or(Error::NoChannelOnDevice)?,
-                },
-                _direction: Tx {},
-                control: control_device
-                    .find_channel("voltage1", true)
-                    .ok_or(Error::NoChannelOnDevice)?,
-            },
+            Channel::<Tx>::new(&tx_device, &control_device, 0)?,
+            Channel::<Tx>::new(&tx_device, &control_device, 1)?,
         ];
 
         let rx = RefCell::new(Transceiver {
@@ -137,25 +79,6 @@ impl AD9361 {
 }
 
 #[derive(Debug)]
-struct IQChannel {
-    i: IIOChannel,
-    q: IIOChannel,
-}
-
-#[derive(Debug)]
-struct Channel<T> {
-    control: IIOChannel,
-    data: IQChannel,
-    _direction: T,
-}
-
-// Marker structs for directioning
-#[derive(Debug)]
-pub struct Tx;
-#[derive(Debug)]
-pub struct Rx;
-
-#[derive(Debug)]
 pub struct Transceiver<T> {
     device: Device,
     lo: IIOChannel,
@@ -165,39 +88,19 @@ pub struct Transceiver<T> {
 
 impl<T> Transceiver<T> {
     pub fn set_rf_bandwidth(&self, chan_id: usize, bandwidth: i64) -> Result<(), Error> {
-        if RF_BANDWIDTH_RANGE.contains(&bandwidth) {
-            self.channels[chan_id]
-                .control
-                .attr_write_int("rf_bandwidth", bandwidth)?;
-            Ok(())
-        } else {
-            Err(Error::OutOfRangeIntValue(bandwidth))
-        }
+        self.channels[chan_id].set_rf_bandwidth(bandwidth)
     }
 
     pub fn rf_bandwidth(&self, chan_id: usize) -> Result<i64, Error> {
-        self.channels[chan_id]
-            .control
-            .attr_read_int("rf_bandwidth")
-            .map_err(Error::from)
+        self.channels[chan_id].rf_bandwidth()
     }
 
     pub fn set_sampling_frequency(&self, chan_id: usize, samplerate: i64) -> Result<(), Error> {
-        if SAMPLING_FREQUENCY_RANGE.contains(&samplerate) {
-            self.channels[chan_id]
-                .control
-                .attr_write_int("sampling_frequency", samplerate)?;
-            Ok(())
-        } else {
-            Err(Error::OutOfRangeIntValue(samplerate))
-        }
+        self.channels[chan_id].set_sampling_frequency(samplerate)
     }
 
     pub fn sampling_frequency(&self, chan_id: usize) -> Result<i64, Error> {
-        self.channels[chan_id]
-            .control
-            .attr_read_int("sampling_frequency")
-            .map_err(Error::from)
+        self.channels[chan_id].sampling_frequency()
     }
 
     pub fn set_lo(&self, freq: i64) -> Result<(), Error> {
@@ -214,13 +117,11 @@ impl<T> Transceiver<T> {
     }
 
     pub fn enable(&self, chan_id: usize) {
-        self.channels[chan_id].data.i.enable();
-        self.channels[chan_id].data.q.enable();
+        self.channels[chan_id].enable();
     }
 
     pub fn disable(&self, chan_id: usize) {
-        self.channels[chan_id].data.i.disable();
-        self.channels[chan_id].data.q.disable();
+        self.channels[chan_id].disable();
     }
 
     pub fn create_buffer(&mut self, sample_count: usize, cyclic: bool) -> Result<(), Error> {
@@ -236,17 +137,11 @@ impl<T> Transceiver<T> {
 
 impl Transceiver<Rx> {
     pub fn set_port(&self, chan_id: usize, port: RxPortSelect) -> Result<(), Error> {
-        self.channels[chan_id]
-            .control
-            .attr_write_str("rf_port_select", port.to_str())?;
-        Ok(())
+        self.channels[chan_id].set_port(port)
     }
 
     pub fn port(&self, chan_id: usize) -> Result<RxPortSelect, Error> {
-        let string = self.channels[chan_id]
-            .control
-            .attr_read_str("rf_port_select")?;
-        RxPortSelect::try_from(string)
+        self.channels[chan_id].port()
     }
 
     pub fn pool_samples_to_buff(&mut self) -> Result<usize, Error> {
@@ -257,12 +152,7 @@ impl Transceiver<Rx> {
 
     pub fn read(&self, chan_id: usize) -> Result<Signal, Error> {
         let Some(buf) = &self.buffer else {return Err(Error::NoRxBuff);};
-        let i_channel: Vec<i16> = self.channels[chan_id].data.i.read(buf)?;
-        let q_channel: Vec<i16> = self.channels[chan_id].data.q.read(buf)?;
-        Ok(Signal {
-            i_channel,
-            q_channel,
-        })
+        self.channels[chan_id].read(buf)
     }
 }
 
@@ -272,31 +162,19 @@ impl Transceiver<Tx> {
         chan_id: usize,
         gain: GainControlMode,
     ) -> Result<(), Error> {
-        self.channels[chan_id]
-            .control
-            .attr_write_str("gain_control_mode", gain.to_str())?;
-        Ok(())
+        self.channels[chan_id].set_gain_control_mode(gain)
     }
 
     pub fn gain_control_mode(&self, chan_id: usize) -> Result<GainControlMode, Error> {
-        let string = self.channels[chan_id]
-            .control
-            .attr_read_str("gain_control_mode")?;
-        GainControlMode::try_from(string)
+        self.channels[chan_id].gain_control_mode()
     }
 
     pub fn set_port(&self, chan_id: usize, port: TxPortSelect) -> Result<(), Error> {
-        self.channels[chan_id]
-            .control
-            .attr_write_str("rf_port_select", port.to_str())?;
-        Ok(())
+        self.channels[chan_id].set_port(port)
     }
 
     pub fn port(&self, chan_id: usize) -> Result<TxPortSelect, Error> {
-        let string = self.channels[chan_id]
-            .control
-            .attr_read_str("rf_port_select")?;
-        TxPortSelect::try_from(string)
+        self.channels[chan_id].port()
     }
 
     pub fn push_samples_to_device(&mut self) -> Result<usize, Error> {
@@ -307,15 +185,7 @@ impl Transceiver<Tx> {
 
     pub fn write(&self, chan_id: usize, signal: &Signal) -> Result<(usize, usize), Error> {
         let Some(buf) = &self.buffer else {return Err(Error::NoTxBuff);};
-        let write_i = self.channels[chan_id]
-            .data
-            .i
-            .write(buf, &signal.i_channel)?;
-        let write_q = self.channels[chan_id]
-            .data
-            .q
-            .write(buf, &signal.q_channel)?;
-        Ok((write_i, write_q))
+        self.channels[chan_id].write(signal, buf)
     }
 }
 
