@@ -4,10 +4,12 @@ use iio::{Buffer, Channel as IIOChannel, Context, Device};
 use std::cell::RefCell;
 
 mod error;
+mod gain_control_mode;
 mod rx_port_select;
 mod tx_port_select;
 
 pub use error::{DevicePart, Error};
+pub use gain_control_mode::GainControlMode;
 pub use rx_port_select::RxPortSelect;
 pub use tx_port_select::TxPortSelect;
 
@@ -255,6 +257,24 @@ impl Transceiver<Rx> {
 }
 
 impl Transceiver<Tx> {
+    pub fn set_gain_control_mode(
+        &self,
+        chan_id: usize,
+        gain: GainControlMode,
+    ) -> Result<(), Error> {
+        self.channels[chan_id]
+            .control
+            .attr_write_str("gain_control_mode", gain.to_str())?;
+        Ok(())
+    }
+
+    pub fn gain_control_mode(&self, chan_id: usize) -> Result<GainControlMode, Error> {
+        let string = self.channels[chan_id]
+            .control
+            .attr_read_str("gain_control_mode")?;
+        GainControlMode::try_from(string)
+    }
+
     pub fn set_port(&self, chan_id: usize, port: TxPortSelect) -> Result<(), Error> {
         self.channels[chan_id]
             .control
@@ -295,14 +315,6 @@ impl<T> Drop for Transceiver<T> {
         self.disable(0);
         self.disable(1);
     }
-}
-
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
-pub enum GainControlMode {
-    FastAttack,
-    Hybrid,
-    Manual,
-    SlowAttack,
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
