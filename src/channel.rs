@@ -12,8 +12,8 @@ pub use gain_control_mode::GainControlMode;
 pub use rx_port_select::RxPortSelect;
 pub use tx_port_select::TxPortSelect;
 
-const RF_BANDWIDTH_RANGE: Range<i64> = 200000..56000000;
-const SAMPLING_FREQUENCY_RANGE: Range<i64> = 2083333..61440000;
+const RF_BANDWIDTH_RANGE: Range<i64> = 200_000..56_000_000;
+const SAMPLING_FREQUENCY_RANGE: Range<i64> = 2_083_333..61_440_000;
 
 // Marker structs for directioning
 #[derive(Debug)]

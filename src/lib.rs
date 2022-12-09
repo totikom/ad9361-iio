@@ -14,7 +14,7 @@ const PHY_NAME: &str = "ad9361-phy";
 const DDS_NAME: &str = "cf-ad9361-dds-core-lpc";
 const LPC_NAME: &str = "cf-ad9361-lpc";
 
-const LO_FREQUENCY_RANGE: Range<i64> = 46875001..6000000000;
+const LO_FREQUENCY_RANGE: Range<i64> = 46_875_001..6_000_000_000;
 
 #[derive(Debug)]
 pub struct AD9361 {
