@@ -202,3 +202,37 @@ pub struct Signal {
     pub i_channel: Vec<i16>,
     pub q_channel: Vec<i16>,
 }
+
+#[cfg(debug_assertions)]
+pub fn print_ctx(ctx: &Context, show_df: bool) {
+    for dev in ctx.devices() {
+        if let Some(name) = dev.name() {
+            println!("Device: {}", name);
+            if dev.has_attrs() {
+                println!("Attributes:");
+                for (name, value) in dev.attr_read_all().expect("Can't read attributes") {
+                    println!("\t{}: {}", name, value);
+                }
+            }
+            println!("Channels:");
+            for channel in dev.channels() {
+                println!(
+                    "\tname: {}, id:{}, is_output: {}, type: {:?}",
+                    channel.name().unwrap_or("None".to_owned()),
+                    channel.id().unwrap(),
+                    channel.is_output(),
+                    channel.channel_type()
+                );
+                if show_df {
+                    println!("{:#?}", channel.data_format());
+                }
+                if channel.has_attrs() {
+                    println!("\tAttributes:");
+                    for (name, value) in channel.attr_read_all().expect("Can't read attributes") {
+                        println!("\t\t{}: {}", name, value);
+                    }
+                }
+            }
+        }
+    }
+}

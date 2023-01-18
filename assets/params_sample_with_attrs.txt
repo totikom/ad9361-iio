@@ -1,0 +1,486 @@
+Device: ams
+Attributes:
+Channels:
+	name: vccpsintfpddr, id:voltage6, is_output: false, type: Voltage
+	Attributes:
+		raw: 18304
+		scale: 0.045776367
+	name: vccpsio2, id:voltage14, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.091552734
+		raw: 19541
+	name: psmgtravtt, id:voltage16, is_output: false, type: Voltage
+	Attributes:
+		raw: 39349
+		scale: 0.045776367
+	name: vccplintlp, id:voltage23, is_output: false, type: Voltage
+	Attributes:
+		raw: 18323
+		scale: 0.045776367
+	name: vcc_pspll0, id:voltage0, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 26105
+	name: vccbram, id:voltage22, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 18460
+	name: vccams, id:voltage26, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.015258789
+		raw: 39212
+	name: vccpsintfp, id:voltage8, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 18367
+	name: remote_temp, id:temp1, is_output: false, type: Temp
+	Attributes:
+		offset: -36058
+		raw: 41878
+		scale: 7.771514892
+	name: vccpsaux, id:voltage9, is_output: false, type: Voltage
+	Attributes:
+		raw: 39320
+		scale: 0.045776367
+	name: vccplaux, id:voltage25, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 39277
+	name: vccint, id:voltage18, is_output: false, type: Voltage
+	Attributes:
+		raw: 18464
+		scale: 0.045776367
+	name: psmgtravcc, id:voltage15, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 18396
+	name: ps_temp, id:temp0, is_output: false, type: Temp
+	Attributes:
+		raw: 41738
+		scale: 7.771514892
+		offset: -36058
+	name: vccint, id:voltage2, is_output: false, type: Voltage
+	Attributes:
+		raw: 18445
+		scale: 0.045776367
+	name: vcc_psddrpll, id:voltage5, is_output: false, type: Voltage
+	Attributes:
+		raw: 39313
+		scale: 0.045776367
+	name: vccvrefn, id:voltage21, is_output: false, type: Voltage
+	Attributes:
+		raw: 10
+		scale: 0.015258789
+	name: vccpsintlp, id:voltage7, is_output: false, type: Voltage
+	Attributes:
+		raw: 18352
+		scale: 0.045776367
+	name: vccpsio3, id:voltage11, is_output: false, type: Voltage
+	Attributes:
+		raw: 19533
+		scale: 0.091552734
+	name: pl_temp, id:temp2, is_output: false, type: Temp
+	Attributes:
+		raw: 41536
+		scale: 7.771514892
+		offset: -36058
+	name: vccpsio1, id:voltage13, is_output: false, type: Voltage
+	Attributes:
+		raw: 19524
+		scale: 0.091552734
+	name: vccbram, id:voltage3, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 18464
+	name: vccaux, id:voltage4, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 39362
+	name: vccpsio0, id:voltage12, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.091552734
+		raw: 19512
+	name: vccpsddr, id:voltage10, is_output: false, type: Voltage
+	Attributes:
+		raw: 26203
+		scale: 0.045776367
+	name: vccplintfp, id:voltage24, is_output: false, type: Voltage
+	Attributes:
+		raw: 18353
+		scale: 0.045776367
+	name: vcc_psbatt, id:voltage1, is_output: false, type: Voltage
+	Attributes:
+		raw: 1494
+		scale: 0.045776367
+	name: vccaux, id:voltage19, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.045776367
+		raw: 39296
+	name: vccams, id:voltage17, is_output: false, type: Voltage
+	Attributes:
+		raw: 39262
+		scale: 0.015258789
+	name: vccvrefp, id:voltage20, is_output: false, type: Voltage
+	Attributes:
+		raw: 27293
+		scale: 0.015258789
+Device: ad9361-phy
+Attributes:
+	rssi_gain_step_error: lna_error: 0 0 0 0
+mixer_error: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+gain_step_calib_reg_val: 0 0 0 0 0
+	gain_table_config: <gaintable AD9361 type=FULL dest=3 start=0 end=1300000000>
+-1, 0x00, 0x00, 0x20
+-1, 0x00, 0x00, 0x00
+-1, 0x00, 0x00, 0x00
+0, 0x00, 0x01, 0x00
+1, 0x00, 0x02, 0x00
+2, 0x00, 0x03, 0x00
+3, 0x00, 0x04, 0x00
+4, 0x00, 0x05, 0x00
+5, 0x01, 0x03, 0x20
+6, 0x01, 0x04, 0x00
+7, 0x01, 0x05, 0x00
+8, 0x01, 0x06, 0x00
+9, 0x01, 0x07, 0x00
+10, 0x01, 0x08, 0x00
+11, 0x01, 0x09, 0x00
+12, 0x01, 0x0A, 0x00
+13, 0x01, 0x0B, 0x00
+14, 0x01, 0x0C, 0x00
+15, 0x01, 0x0D, 0x00
+16, 0x01, 0x0E, 0x00
+17, 0x02, 0x09, 0x20
+18, 0x02, 0x0A, 0x00
+19, 0x02, 0x0B, 0x00
+20, 0x02, 0x0C, 0x00
+21, 0x02, 0x0D, 0x00
+22, 0x02, 0x0E, 0x00
+23, 0x02, 0x0F, 0x00
+24, 0x02, 0x10, 0x00
+25, 0x02, 0x2B, 0x20
+26, 0x02, 0x2C, 0x00
+27, 0x04, 0x28, 0x20
+28, 0x04, 0x29, 0x00
+29, 0x04, 0x2A, 0x00
+30, 0x04, 0x2B, 0x00
+31, 0x24, 0x20, 0x20
+32, 0x24, 0x21, 0x00
+33, 0x44, 0x20, 0x20
+34, 0x44, 0x21, 0x00
+35, 0x44, 0x22, 0x00
+36, 0x44, 0x23, 0x00
+37, 0x44, 0x24, 0x00
+38, 0x44, 0x25, 0x00
+39, 0x44, 0x26, 0x00
+40, 0x44, 0x27, 0x00
+41, 0x44, 0x28, 0x00
+42, 0x44, 0x29, 0x00
+43, 0x44, 0x2A, 0x00
+44, 0x44, 0x2B, 0x00
+45, 0x44, 0x2C, 0x00
+46, 0x44, 0x2D, 0x00
+47, 0x44, 0x2E, 0x00
+48, 0x44, 0x2F, 0x00
+49, 0x44, 0x30, 0x00
+50, 0x44, 0x31, 0x00
+51, 0x44, 0x32, 0x00
+52, 0x64, 0x2E, 0x20
+53, 0x64, 0x2F, 0x00
+54, 0x64, 0x30, 0x00
+55, 0x64, 0x31, 0x00
+56, 0x64, 0x32, 0x00
+57, 0x64, 0x33, 0x00
+58, 0x64, 0x34, 0x00
+59, 0x64, 0x35, 0x00
+60, 0x64, 0x36, 0x00
+61, 0x64, 0x37, 0x00
+62, 0x64, 0x38, 0x00
+63, 0x65, 0x38, 0x20
+64, 0x66, 0x38, 0x20
+65, 0x67, 0x38, 0x20
+66, 0x68, 0x38, 0x20
+67, 0x69, 0x38, 0x20
+68, 0x6A, 0x38, 0x20
+69, 0x6B, 0x38, 0x20
+70, 0x6C, 0x38, 0x20
+71, 0x6D, 0x38, 0x20
+72, 0x6E, 0x38, 0x20
+73, 0x6F, 0x38, 0x20
+</gaintable>
+	calib_mode: auto
+	calib_mode_available: auto manual manual_tx_quad tx_quad rf_dc_offs rssi_gain_step
+	dcxo_tune_coarse: 8
+	dcxo_tune_coarse_available: [0 1 63]
+	dcxo_tune_fine: 5920
+	dcxo_tune_fine_available: [0 1 8191]
+	ensm_mode: fdd
+	ensm_mode_available: sleep wait alert fdd pinctrl pinctrl_fdd_indep
+	filter_fir_config: FIR Rx: 64,2 Tx: 64,2
+	rx_path_rates: BBPLL:793599992 ADC:99199999 R2:49599999 R1:24799999 RF:12399999 RXSAMP:6199999
+	trx_rate_governor: nominal
+	trx_rate_governor_available: nominal highest_osr
+	tx_path_rates: BBPLL:793599992 DAC:99199999 T2:49599999 T1:24799999 TF:12399999 TXSAMP:6199999
+	xo_correction: 40000000
+	xo_correction_available: [40000000 1 40000000]
+Channels:
+	name: RX_LO, id:altvoltage0, is_output: true, type: AltVoltage
+	Attributes:
+		external: 0
+		fastlock_load: 0
+		fastlock_save: 0 141,141,141,141,141,141,141,141,205,142,141,195,141,141,141,141
+		fastlock_store: 0
+		frequency: 100000000
+		frequency_available: [70000000 1 6000000000]
+		powerdown: 0
+	name: None, id:voltage1, is_output: true, type: Voltage
+	Attributes:
+		filter_fir_en: 1
+		hardwaregain: -10.000000 dB
+		hardwaregain_available: [-89.750000 0.250000 0.000000]
+		rf_bandwidth: 50000000
+		rf_bandwidth_available: [200000 1 40000000]
+		rf_port_select: A
+		rf_port_select_available: A B
+		rssi: 0.00 dB
+		sampling_frequency: 6199999
+		sampling_frequency_available: [1041666 1 61440000]
+	name: None, id:voltage2, is_output: false, type: Voltage
+	Attributes:
+		bb_dc_offset_tracking_en: 1
+		filter_fir_en: 1
+		gain_control_mode_available: manual fast_attack slow_attack hybrid
+		offset: 57
+		quadrature_tracking_en: 1
+		raw: 740
+		rf_bandwidth: 50000000
+		rf_bandwidth_available: [200000 1 56000000]
+		rf_dc_offset_tracking_en: 1
+		rf_port_select_available: A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		sampling_frequency: 6199999
+		sampling_frequency_available: [1041666 1 61440000]
+		scale: 0.305250
+	name: None, id:voltage2, is_output: true, type: Voltage
+	Attributes:
+		filter_fir_en: 1
+		raw: 306
+		rf_bandwidth: 50000000
+		rf_bandwidth_available: [200000 1 40000000]
+		rf_port_select_available: A B
+		sampling_frequency: 6199999
+		sampling_frequency_available: [1041666 1 61440000]
+		scale: 1.000000
+	name: TX_LO, id:altvoltage1, is_output: true, type: AltVoltage
+	Attributes:
+		external: 0
+		fastlock_load: 0
+		fastlock_save: 0 181,181,180,245,176,112,181,181,181,181,245,184,181,175,183,181
+		fastlock_store: 0
+		frequency: 100000000
+		frequency_available: [46875001 1 6000000000]
+		powerdown: 0
+	name: None, id:voltage1, is_output: false, type: Voltage
+	Attributes:
+		bb_dc_offset_tracking_en: 1
+		filter_fir_en: 1
+		gain_control_mode: slow_attack
+		gain_control_mode_available: manual fast_attack slow_attack hybrid
+		hardwaregain: 8.000000 dB
+		hardwaregain_available: [-1 1 73]
+		quadrature_tracking_en: 1
+		rf_bandwidth: 50000000
+		rf_bandwidth_available: [200000 1 56000000]
+		rf_dc_offset_tracking_en: 1
+		rf_port_select: A_BALANCED
+		rf_port_select_available: A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		rssi: 28.25 dB
+		sampling_frequency: 6199999
+		sampling_frequency_available: [1041666 1 61440000]
+	name: None, id:voltage0, is_output: true, type: Voltage
+	Attributes:
+		filter_fir_en: 1
+		hardwaregain: -10.000000 dB
+		hardwaregain_available: [-89.750000 0.250000 0.000000]
+		rf_bandwidth: 50000000
+		rf_bandwidth_available: [200000 1 40000000]
+		rf_port_select: A
+		rf_port_select_available: A B
+		rssi: 0.00 dB
+		sampling_frequency: 6199999
+		sampling_frequency_available: [1041666 1 61440000]
+	name: None, id:voltage3, is_output: true, type: Voltage
+	Attributes:
+		filter_fir_en: 1
+		raw: 306
+		rf_bandwidth: 50000000
+		rf_bandwidth_available: [200000 1 40000000]
+		rf_port_select_available: A B
+		sampling_frequency: 6199999
+		sampling_frequency_available: [1041666 1 61440000]
+		scale: 1.000000
+	name: None, id:voltage0, is_output: false, type: Voltage
+	Attributes:
+		bb_dc_offset_tracking_en: 1
+		filter_fir_en: 1
+		gain_control_mode: slow_attack
+		gain_control_mode_available: manual fast_attack slow_attack hybrid
+		hardwaregain: 8.000000 dB
+		hardwaregain_available: [-1 1 73]
+		quadrature_tracking_en: 1
+		rf_bandwidth: 50000000
+		rf_bandwidth_available: [200000 1 56000000]
+		rf_dc_offset_tracking_en: 1
+		rf_port_select: A_BALANCED
+		rf_port_select_available: A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		rssi: 28.50 dB
+		sampling_frequency: 6199999
+		sampling_frequency_available: [1041666 1 61440000]
+	name: None, id:temp0, is_output: false, type: Temp
+	Attributes:
+		input: 35088
+	name: None, id:out, is_output: false, type: Unknown
+	Attributes:
+		voltage_filter_fir_en: 1
+Device: ad7291
+Channels:
+	name: None, id:temp0, is_output: false, type: Temp
+	Attributes:
+		scale: 250
+		mean_raw: 255
+		raw: 255
+	name: None, id:voltage1, is_output: false, type: Voltage
+	Attributes:
+		raw: 255
+		scale: 0.610351562
+	name: None, id:voltage5, is_output: false, type: Voltage
+	Attributes:
+		raw: 255
+		scale: 0.610351562
+	name: None, id:voltage2, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.610351562
+		raw: 255
+	name: None, id:voltage6, is_output: false, type: Voltage
+	Attributes:
+		raw: 255
+		scale: 0.610351562
+	name: None, id:voltage3, is_output: false, type: Voltage
+	Attributes:
+		raw: 255
+		scale: 0.610351562
+	name: None, id:voltage7, is_output: false, type: Voltage
+	Attributes:
+		raw: 255
+		scale: 0.610351562
+	name: None, id:voltage0, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.610351562
+		raw: 255
+	name: None, id:voltage4, is_output: false, type: Voltage
+	Attributes:
+		scale: 0.610351562
+		raw: 255
+Device: cf-ad9361-lpc
+Channels:
+	name: None, id:voltage0, is_output: false, type: Voltage
+	Attributes:
+		calibscale: 1.000000
+		calibbias: 0
+		calibphase: 0.000000
+		sampling_frequency: 6199999
+	name: None, id:voltage1, is_output: false, type: Voltage
+	Attributes:
+		calibscale: 1.000000
+		sampling_frequency: 6199999
+		calibbias: 0
+		calibphase: 0.000000
+	name: None, id:voltage2, is_output: false, type: Voltage
+	Attributes:
+		calibphase: 0.000000
+		calibscale: 1.000000
+		calibbias: 0
+		sampling_frequency: 6199999
+	name: None, id:voltage3, is_output: false, type: Voltage
+	Attributes:
+		sampling_frequency: 6199999
+		calibbias: 0
+		calibphase: 0.000000
+		calibscale: 1.000000
+Device: cf-ad9361-dds-core-lpc
+Channels:
+	name: None, id:voltage0, is_output: true, type: Voltage
+	Attributes:
+		calibphase: 0.000000
+		sampling_frequency: 6199999
+		calibscale: 1.000000
+	name: None, id:voltage1, is_output: true, type: Voltage
+	Attributes:
+		sampling_frequency: 6199999
+		calibphase: 0.000000
+		calibscale: 1.000000
+	name: None, id:voltage2, is_output: true, type: Voltage
+	Attributes:
+		calibscale: 1.000000
+		calibphase: 0.000000
+		sampling_frequency: 6199999
+	name: None, id:voltage3, is_output: true, type: Voltage
+	Attributes:
+		calibphase: 0.000000
+		sampling_frequency: 6199999
+		calibscale: 1.000000
+	name: TX1_Q_F2, id:altvoltage3, is_output: true, type: AltVoltage
+	Attributes:
+		scale: 0.250000
+		phase: 0
+		frequency: 2799483
+		raw: 0
+		sampling_frequency: 6199999
+	name: TX2_I_F2, id:altvoltage5, is_output: true, type: AltVoltage
+	Attributes:
+		raw: 0
+		frequency: 2799483
+		sampling_frequency: 6199999
+		phase: 90000
+		scale: 0.250000
+	name: TX1_Q_F1, id:altvoltage2, is_output: true, type: AltVoltage
+	Attributes:
+		raw: 0
+		frequency: 2799483
+		sampling_frequency: 6199999
+		phase: 0
+		scale: 0.250000
+	name: TX1_I_F2, id:altvoltage1, is_output: true, type: AltVoltage
+	Attributes:
+		frequency: 2799483
+		phase: 90000
+		sampling_frequency: 6199999
+		scale: 0.250000
+		raw: 0
+	name: TX2_Q_F2, id:altvoltage7, is_output: true, type: AltVoltage
+	Attributes:
+		scale: 0.250000
+		phase: 0
+		raw: 0
+		sampling_frequency: 6199999
+		frequency: 2799483
+	name: TX2_I_F1, id:altvoltage4, is_output: true, type: AltVoltage
+	Attributes:
+		raw: 0
+		phase: 90000
+		frequency: 2799483
+		scale: 0.250000
+		sampling_frequency: 6199999
+	name: TX1_I_F1, id:altvoltage0, is_output: true, type: AltVoltage
+	Attributes:
+		sampling_frequency: 6199999
+		phase: 90000
+		frequency: 2799483
+		raw: 0
+		scale: 0.250000
+	name: TX2_Q_F1, id:altvoltage6, is_output: true, type: AltVoltage
+	Attributes:
+		scale: 0.250000
+		phase: 0
+		frequency: 2799483
+		raw: 0
+		sampling_frequency: 6199999
