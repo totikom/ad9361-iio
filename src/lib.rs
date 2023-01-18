@@ -1,10 +1,14 @@
 use industrial_io::{Buffer, Channel as IIOChannel, Context, Device};
 use std::cell::RefCell;
-use std::ops::Range;
+use std::ops::{Range, RangeInclusive};
 
+mod calib_mode;
+mod ensm_mode;
 mod channel;
 mod error;
 
+pub use calib_mode::CalibMode;
+pub use ensm_mode::ENSMMode;
 pub use channel::{GainControlMode, Rx, RxPortSelect, Tx, TxPortSelect};
 pub use error::{DevicePart, Error};
 
@@ -14,7 +18,9 @@ const PHY_NAME: &str = "ad9361-phy";
 const DDS_NAME: &str = "cf-ad9361-dds-core-lpc";
 const LPC_NAME: &str = "cf-ad9361-lpc";
 
-const LO_FREQUENCY_RANGE: Range<i64> = 46_875_001..6_000_000_000;
+const LO_FREQUENCY_RANGE: RangeInclusive<i64> = 46_875_001..=6_000_000_000;
+const DCXO_FINE_RANGE: Range<i64> = 1..8192;
+const DCXO_COARSE_RANGE: Range<i64> = 1..64;
 
 #[derive(Debug)]
 pub struct AD9361 {
@@ -75,6 +81,58 @@ impl AD9361 {
             rx,
             tx,
         })
+    }
+
+    pub fn set_ensm_mode(&self, mode: ENSMMode) -> Result<(), Error> {
+        self.control_device
+            .attr_write_str("ensm_mode", mode.to_str())?;
+        Ok(())
+    }
+
+    pub fn ensm_mode(&self) -> Result<ENSMMode, Error> {
+        let string = self.control_device.attr_read_str("ensm_mode")?;
+        ENSMMode::try_from(string)
+    }
+
+    pub fn set_calib_mode(&self, mode: CalibMode) -> Result<(), Error> {
+        self.control_device
+            .attr_write_str("calib_mode", mode.to_str())?;
+        Ok(())
+    }
+
+    pub fn calib_mode(&self) -> Result<CalibMode, Error> {
+        let string = self.control_device.attr_read_str("calib_mode")?;
+        CalibMode::try_from(string)
+    }
+
+    pub fn set_dcxo_tune_fine(&self, dcxo: i64) -> Result<(), Error> {
+        if DCXO_FINE_RANGE.contains(&dcxo) {
+            self.control_device.attr_write_int("dcxo_tune_fine", dcxo)?;
+            Ok(())
+        } else {
+            Err(Error::OutOfRangeIntValue(dcxo))
+        }
+    }
+
+    pub fn dcxo_tune_fine(&self) -> Result<i64, Error> {
+        self.control_device
+            .attr_read_int("dcxo_tune_fine")
+            .map_err(Error::from)
+    }
+
+    pub fn set_dcxo_tune_coarse(&self, dcxo: i64) -> Result<(), Error> {
+        if DCXO_COARSE_RANGE.contains(&dcxo) {
+            self.control_device.attr_write_int("dcxo_tune_coarse", dcxo)?;
+            Ok(())
+        } else {
+            Err(Error::OutOfRangeIntValue(dcxo))
+        }
+    }
+
+    pub fn dcxo_tune_coarse(&self) -> Result<i64, Error> {
+        self.control_device
+            .attr_read_int("dcxo_tune_coarse")
+            .map_err(Error::from)
     }
 }
 
