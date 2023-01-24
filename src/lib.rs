@@ -3,24 +3,24 @@ use std::cell::RefCell;
 use std::ops::{Range, RangeInclusive};
 
 mod calib_mode;
-mod ensm_mode;
 mod channel;
+mod ensm_mode;
 mod error;
 
 pub use calib_mode::CalibMode;
-pub use ensm_mode::ENSMMode;
 pub use channel::{GainControlMode, Rx, RxPortSelect, Tx, TxPortSelect};
+pub use ensm_mode::ENSMMode;
 pub use error::{DevicePart, Error};
 
 use channel::Channel;
 
-const PHY_NAME: &str = "ad9361-phy";
 const DDS_NAME: &str = "cf-ad9361-dds-core-lpc";
 const LPC_NAME: &str = "cf-ad9361-lpc";
+const PHY_NAME: &str = "ad9361-phy";
 
-const LO_FREQUENCY_RANGE: RangeInclusive<i64> = 46_875_001..=6_000_000_000;
-const DCXO_FINE_RANGE: Range<i64> = 1..8192;
 const DCXO_COARSE_RANGE: Range<i64> = 1..64;
+const DCXO_FINE_RANGE: Range<i64> = 1..8192;
+const LO_FREQUENCY_RANGE: RangeInclusive<i64> = 46_875_001..=6_000_000_000;
 
 #[derive(Debug)]
 pub struct AD9361 {
@@ -122,7 +122,8 @@ impl AD9361 {
 
     pub fn set_dcxo_tune_coarse(&self, dcxo: i64) -> Result<(), Error> {
         if DCXO_COARSE_RANGE.contains(&dcxo) {
-            self.control_device.attr_write_int("dcxo_tune_coarse", dcxo)?;
+            self.control_device
+                .attr_write_int("dcxo_tune_coarse", dcxo)?;
             Ok(())
         } else {
             Err(Error::OutOfRangeIntValue(dcxo))
@@ -174,6 +175,10 @@ impl<T> Transceiver<T> {
         self.lo.attr_read_int("frequency").map_err(Error::from)
     }
 
+    pub fn hardware_gain(&self, chan_id: usize) -> Result<f64, Error> {
+        self.channels[chan_id].hardware_gain()
+    }
+
     pub fn enable(&self, chan_id: usize) {
         self.channels[chan_id].enable();
     }
@@ -200,6 +205,10 @@ impl Transceiver<Rx> {
 
     pub fn port(&self, chan_id: usize) -> Result<RxPortSelect, Error> {
         self.channels[chan_id].port()
+    }
+
+    pub fn set_hardware_gain(&self, chan_id: usize, gain: f64) -> Result<(), Error> {
+        self.channels[chan_id].set_hardware_gain(gain)
     }
 
     pub fn pool_samples_to_buff(&mut self) -> Result<usize, Error> {
@@ -233,6 +242,10 @@ impl Transceiver<Tx> {
 
     pub fn port(&self, chan_id: usize) -> Result<TxPortSelect, Error> {
         self.channels[chan_id].port()
+    }
+
+    pub fn set_hardware_gain(&self, chan_id: usize, gain: f64) -> Result<(), Error> {
+        self.channels[chan_id].set_hardware_gain(gain)
     }
 
     pub fn push_samples_to_device(&mut self) -> Result<usize, Error> {

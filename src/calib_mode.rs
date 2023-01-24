@@ -2,12 +2,12 @@ use crate::error::Error;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub enum CalibMode {
-        Auto,
-        Manual,
-        ManualTxQuad,
-        TxQuad,
-        RFdcOffs,
-        RSSIGainStep,
+    Auto,
+    Manual,
+    ManualTxQuad,
+    TxQuad,
+    RFdcOffs,
+    RSSIGainStep,
 }
 
 impl TryFrom<String> for CalibMode {

@@ -11,6 +11,7 @@ pub enum Error {
     NoTxBuff,
     UnexpectedStringValue(String),
     OutOfRangeIntValue(i64),
+    OutOfRangeFloatValue(f64),
 }
 
 impl From<industrial_io::Error> for Error {

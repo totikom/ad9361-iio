@@ -14,6 +14,8 @@ pub use tx_port_select::TxPortSelect;
 
 const RF_BANDWIDTH_RANGE: RangeInclusive<i64> = 200_000..=56_000_000;
 const SAMPLING_FREQUENCY_RANGE: RangeInclusive<i64> = 2_083_333..=61_440_000;
+const RX_GAIN_RANGE: RangeInclusive<f64> = -89.75..=0.0;
+const TX_GAIN_RANGE: RangeInclusive<f64> = -1.0..=73.0;
 
 // Marker structs for directioning
 #[derive(Debug)]
@@ -66,6 +68,12 @@ impl<T> Channel<T> {
             .map_err(Error::from)
     }
 
+    // ranges are different for RX and TX, so set_* implementations are moved to those impls
+    pub fn hardware_gain(&self) -> Result<f64, Error> {
+        let value = self.control.attr_read_float("hardwaregain")?;
+        Ok(value)
+    }
+
     pub fn enable(&self) {
         self.data.i.enable();
         self.data.q.enable();
@@ -87,6 +95,15 @@ impl Channel<Rx> {
     pub fn port(&self) -> Result<RxPortSelect, Error> {
         let string = self.control.attr_read_str("rf_port_select")?;
         RxPortSelect::try_from(string)
+    }
+
+    pub fn set_hardware_gain(&self, gain: f64) -> Result<(), Error> {
+        if RX_GAIN_RANGE.contains(&gain) {
+            self.control.attr_write_float("hardwaregain", gain)?;
+            Ok(())
+        } else {
+            Err(Error::OutOfRangeFloatValue(gain))
+        }
     }
 
     pub fn read(&self, buf: &Buffer) -> Result<Signal, Error> {
@@ -137,6 +154,15 @@ impl Channel<Tx> {
     pub fn port(&self) -> Result<TxPortSelect, Error> {
         let string = self.control.attr_read_str("rf_port_select")?;
         TxPortSelect::try_from(string)
+    }
+
+    pub fn set_hardware_gain(&self, gain: f64) -> Result<(), Error> {
+        if TX_GAIN_RANGE.contains(&gain) {
+            self.control.attr_write_float("hardwaregain", gain)?;
+            Ok(())
+        } else {
+            Err(Error::OutOfRangeFloatValue(gain))
+        }
     }
 
     pub fn write(&self, signal: &Signal, buf: &Buffer) -> Result<(usize, usize), Error> {
