@@ -1,0 +1,255 @@
+Values:
+ams {
+ad9361-phy {
+	 calib_mode auto
+	 calib_mode_available auto manual manual_tx_quad tx_quad rf_dc_offs rssi_gain_step
+	 dcxo_tune_coarse 8
+	 dcxo_tune_coarse_available [0 1 63]
+	 dcxo_tune_fine 5920
+	 dcxo_tune_fine_available [0 1 8191]
+	 ensm_mode fdd
+	 ensm_mode_available sleep wait alert fdd pinctrl pinctrl_fdd_indep
+	 filter_fir_config FIR Rx: 128,4 Tx: 128,4
+	 gain_table_config 
+	 multichip_sync 
+	 rssi_gain_step_error lna_error: 0 0 0 0
+mixer_error: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+gain_step_calib_reg_val: 0 0 0 0 0
+	 rx_path_rates BBPLL:1024000000 ADC:512000000 R2:256000000 R1:128000000 RF:64000000 RXSAMP:16000000
+	 trx_rate_governor nominal
+	 trx_rate_governor_available nominal highest_osr
+	 tx_path_rates BBPLL:1024000000 DAC:256000000 T2:128000000 T1:64000000 TF:64000000 TXSAMP:16000000
+	 xo_correction 40000000
+	 xo_correction_available [40000000 1 40000000]
+Channel attrs:
+	 RX_LO {
+		 external 0
+		 fastlock_load 0
+		 fastlock_recall 
+		 fastlock_save 0 141,141,141,141,141,141,141,141,205,142,141,195,141,141,141,141
+		 fastlock_store 0
+		 frequency 99000000
+		 frequency_available [70000000 1 6000000000]
+		 powerdown 0
+	}
+	 TX_LO {
+		 external 0
+		 fastlock_load 0
+		 fastlock_recall 
+		 fastlock_save 0 181,181,180,245,176,112,181,181,181,181,245,184,181,175,183,181
+		 fastlock_store 0
+		 frequency 99000000
+		 frequency_available [46875001 1 6000000000]
+		 powerdown 0
+	}
+	 None {
+		 voltage_filter_fir_en 1
+	}
+	 None {
+		 input 38596
+	}
+	 None {
+		 filter_fir_en 1
+		 hardwaregain -10.000000 dB
+		 hardwaregain_available [-89.750000 0.250000 0.000000]
+		 rf_bandwidth 12800000
+		 rf_bandwidth_available [200000 1 40000000]
+		 rf_port_select A
+		 rf_port_select_available A B
+		 rssi 0.00 dB
+		 sampling_frequency 16000000
+		 sampling_frequency_available [520833 1 30720000]
+	}
+	 None {
+		 bb_dc_offset_tracking_en 1
+		 filter_fir_en 1
+		 gain_control_mode slow_attack
+		 gain_control_mode_available manual fast_attack slow_attack hybrid
+		 hardwaregain 21.000000 dB
+		 hardwaregain_available [-1 1 73]
+		 quadrature_tracking_en 1
+		 rf_bandwidth 12800000
+		 rf_bandwidth_available [200000 1 56000000]
+		 rf_dc_offset_tracking_en 1
+		 rf_port_select A_BALANCED
+		 rf_port_select_available A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		 rssi 42.00 dB
+		 sampling_frequency 16000000
+		 sampling_frequency_available [520833 1 30720000]
+	}
+	 None {
+		 filter_fir_en 1
+		 hardwaregain -10.000000 dB
+		 hardwaregain_available [-89.750000 0.250000 0.000000]
+		 rf_bandwidth 12800000
+		 rf_bandwidth_available [200000 1 40000000]
+		 rf_port_select A
+		 rf_port_select_available A B
+		 rssi 0.00 dB
+		 sampling_frequency 16000000
+		 sampling_frequency_available [520833 1 30720000]
+	}
+	 None {
+		 bb_dc_offset_tracking_en 1
+		 filter_fir_en 1
+		 gain_control_mode slow_attack
+		 gain_control_mode_available manual fast_attack slow_attack hybrid
+		 hardwaregain 16.000000 dB
+		 hardwaregain_available [-1 1 73]
+		 quadrature_tracking_en 1
+		 rf_bandwidth 12800000
+		 rf_bandwidth_available [200000 1 56000000]
+		 rf_dc_offset_tracking_en 1
+		 rf_port_select A_BALANCED
+		 rf_port_select_available A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		 rssi 36.25 dB
+		 sampling_frequency 16000000
+		 sampling_frequency_available [520833 1 30720000]
+	}
+	 None {
+		 bb_dc_offset_tracking_en 1
+		 filter_fir_en 1
+		 gain_control_mode_available manual fast_attack slow_attack hybrid
+		 offset 57
+		 quadrature_tracking_en 1
+		 raw 656
+		 rf_bandwidth 12800000
+		 rf_bandwidth_available [200000 1 56000000]
+		 rf_dc_offset_tracking_en 1
+		 rf_port_select_available A_BALANCED B_BALANCED C_BALANCED A_N A_P B_N B_P C_N C_P TX_MONITOR1 TX_MONITOR2 TX_MONITOR1_2
+		 sampling_frequency 16000000
+		 sampling_frequency_available [520833 1 30720000]
+		 scale 0.305250
+	}
+	 None {
+		 filter_fir_en 1
+		 raw 306
+		 rf_bandwidth 12800000
+		 rf_bandwidth_available [200000 1 40000000]
+		 rf_port_select_available A B
+		 sampling_frequency 16000000
+		 sampling_frequency_available [520833 1 30720000]
+		 scale 1.000000
+	}
+	 None {
+		 filter_fir_en 1
+		 raw 306
+		 rf_bandwidth 12800000
+		 rf_bandwidth_available [200000 1 40000000]
+		 rf_port_select_available A B
+		 sampling_frequency 16000000
+		 sampling_frequency_available [520833 1 30720000]
+		 scale 1.000000
+	}
+}
+ad7291 {
+cf-ad9361-lpc {
+Channel attrs:
+	 None {
+		 calibbias 0
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 samples_pps 
+		 sampling_frequency 16000000
+	}
+	 None {
+		 calibbias 0
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 samples_pps 
+		 sampling_frequency 16000000
+	}
+	 None {
+		 calibbias 0
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 samples_pps 
+		 sampling_frequency 16000000
+	}
+	 None {
+		 calibbias 0
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 samples_pps 
+		 sampling_frequency 16000000
+	}
+}
+cf-ad9361-dds-core-lpc {
+Channel attrs:
+	 TX1_I_F1 {
+		 frequency 7999389
+		 phase 90000
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 TX1_I_F2 {
+		 frequency 7999389
+		 phase 90000
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 TX1_Q_F1 {
+		 frequency 7999389
+		 phase 0
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 TX1_Q_F2 {
+		 frequency 7999389
+		 phase 0
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 TX2_I_F1 {
+		 frequency 7999389
+		 phase 90000
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 TX2_I_F2 {
+		 frequency 7999389
+		 phase 90000
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 TX2_Q_F1 {
+		 frequency 7999389
+		 phase 0
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 TX2_Q_F2 {
+		 frequency 7999389
+		 phase 0
+		 raw 0
+		 sampling_frequency 16000000
+		 scale 0.250000
+	}
+	 None {
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 sampling_frequency 16000000
+	}
+	 None {
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 sampling_frequency 16000000
+	}
+	 None {
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 sampling_frequency 16000000
+	}
+	 None {
+		 calibphase 0.000000
+		 calibscale 1.000000
+		 sampling_frequency 16000000
+	}
+}
