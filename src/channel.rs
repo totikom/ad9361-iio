@@ -85,10 +85,7 @@ impl<T> Channel<T> {
     }
 
     pub fn rssi(&self) -> Result<f64, Error> {
-        self.control
-            .attr_read_float("rssi")
-            .map_err(Error::from)
-        
+        self.control.attr_read_float("rssi").map_err(Error::from)
     }
 }
 
@@ -134,7 +131,7 @@ impl Channel<Rx> {
             },
             _direction: Rx {},
             control: control_device
-                .find_channel(format!("voltage{}", index).as_str(), false)
+                .find_channel(format!("voltage{index}").as_str(), false)
                 .ok_or(Error::NoChannelOnDevice)?,
         })
     }
@@ -190,7 +187,7 @@ impl Channel<Tx> {
             },
             _direction: Tx {},
             control: control_device
-                .find_channel(format!("voltage{}", index).as_str(), true)
+                .find_channel(format!("voltage{index}").as_str(), true)
                 .ok_or(Error::NoChannelOnDevice)?,
         })
     }

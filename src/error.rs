@@ -30,9 +30,9 @@ pub enum DevicePart {
 impl fmt::Debug for DevicePart {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Phy => write!(f, "{}", PHY_NAME),
-            Self::Dds => write!(f, "{}", DDS_NAME),
-            Self::Lpc => write!(f, "{}", LPC_NAME),
+            Self::Phy => write!(f, "{PHY_NAME}"),
+            Self::Dds => write!(f, "{DDS_NAME}"),
+            Self::Lpc => write!(f, "{LPC_NAME}"),
         }
     }
 }

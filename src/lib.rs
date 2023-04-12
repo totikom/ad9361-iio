@@ -199,7 +199,6 @@ impl<T> Transceiver<T> {
 
     pub fn rssi(&self, chan_id: usize) -> Result<f64, Error> {
         self.channels[chan_id].rssi()
-        
     }
 }
 
@@ -283,11 +282,11 @@ pub struct Signal {
 pub fn print_ctx(ctx: &Context, show_df: bool) {
     for dev in ctx.devices() {
         if let Some(name) = dev.name() {
-            println!("Device: {}", name);
+            println!("Device: {name}");
             if dev.has_attrs() {
                 println!("Attributes:");
                 for (name, value) in dev.attr_read_all().expect("Can't read attributes") {
-                    println!("\t{}: {}", name, value);
+                    println!("\t{name}: {value}");
                 }
             }
             println!("Channels:");
@@ -305,7 +304,7 @@ pub fn print_ctx(ctx: &Context, show_df: bool) {
                 if channel.has_attrs() {
                     println!("\tAttributes:");
                     for (name, value) in channel.attr_read_all().expect("Can't read attributes") {
-                        println!("\t\t{}: {}", name, value);
+                        println!("\t\t{name}: {value}");
                     }
                 }
             }
