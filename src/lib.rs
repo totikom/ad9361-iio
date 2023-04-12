@@ -196,6 +196,11 @@ impl<T> Transceiver<T> {
     pub fn destroy_buffer(&mut self) {
         self.buffer = None;
     }
+
+    pub fn rssi(&self, chan_id: usize) -> Result<f64, Error> {
+        self.channels[chan_id].rssi()
+        
+    }
 }
 
 impl Transceiver<Rx> {

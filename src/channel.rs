@@ -83,6 +83,13 @@ impl<T> Channel<T> {
         self.data.i.disable();
         self.data.q.disable();
     }
+
+    pub fn rssi(&self) -> Result<f64, Error> {
+        self.control
+            .attr_read_float("rssi")
+            .map_err(Error::from)
+        
+    }
 }
 
 impl Channel<Rx> {
